@@ -41,7 +41,7 @@ const ProjectCarousel = ({ projects }) => {
     <div className="relative w-full max-w-6xl mx-auto">
       {/* Main Carousel Container */}
       <div 
-        className="relative h-auto sm:h-[380px] md:h-[480px] lg:h-[550px] rounded-2xl overflow-hidden bg-gradient-to-br from-purple-900 to-purple-800 shadow-2xl border border-purple-700 border-opacity-50 group"
+        className="relative w-full h-[300px] sm:h-[450px] md:h-[480px] lg:h-[550px] rounded-2xl overflow-hidden bg-gradient-to-br from-purple-900 to-purple-800 shadow-2xl border border-purple-700 border-opacity-50 group"
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
@@ -61,7 +61,7 @@ const ProjectCarousel = ({ projects }) => {
           >
             <div className="h-full w-full flex flex-col md:flex-row">
               {/* Project Image/Video */}
-              <div className="w-full md:w-3/5 h-64 md:h-full bg-gradient-to-br from-purple-900 via-purple-800 to-gray-900 flex items-center justify-center overflow-hidden relative">
+              <div className="w-full md:w-3/5 h-72 sm:h-80 md:h-full bg-gradient-to-br from-purple-900 via-purple-800 to-gray-900 flex items-center justify-center overflow-hidden relative">
                 {/* Background gradient effect */}
                 <div className="absolute inset-0 bg-gradient-to-t from-purple-900 to-transparent opacity-40"></div>
                 

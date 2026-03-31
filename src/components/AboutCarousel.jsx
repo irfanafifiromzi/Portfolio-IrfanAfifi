@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import irfan from "../assets/irfan.jpg";
+import irfan2 from "../assets/irfan2.jpg";
+import irfan3 from "../assets/irfan3.jpg";
+import irfan4 from "../assets/irfan4.jpg";
+import irfan5 from "../assets/irfan5.jpg";
 
 const AboutCarousel = ({ images = [] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -8,11 +13,11 @@ const AboutCarousel = ({ images = [] }) => {
 
   // Default images if none provided
   const aboutImages = images.length > 0 ? images : [
-    { id: 1, src: '/src/assets/irfan.jpg', alt: 'Irfan at work' },
-    { id: 2, src: '/src/assets/irfan2.jpg', alt: 'Irfan profile' },
-    { id: 3, src: '/src/assets/irfan3.jpg', alt: 'Irfan' },
-    { id: 4, src: '/src/assets/irfan4.jpg', alt: 'Irfan' },
-    { id: 5, src: '/src/assets/irfan5.jpg', alt: 'Irfan' },
+    { id: 1, src: irfan, alt: 'Irfan at work' },
+    { id: 2, src: irfan2, alt: 'Irfan profile' },
+    { id: 3, src: irfan3, alt: 'Irfan' },
+    { id: 4, src: irfan4, alt: 'Irfan' },
+    { id: 5, src: irfan5, alt: 'Irfan' },
   ];
 
   const slideVariants = {
