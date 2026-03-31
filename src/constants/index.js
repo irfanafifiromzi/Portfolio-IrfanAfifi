@@ -1,51 +1,70 @@
-import project1 from "../assets/projects/project-1.jpeg";
-import project2 from "../assets/projects/project-2.jpg";
-import project3 from "../assets/projects/project-3.png";
-import project4 from "../assets/projects/project-4.png";
+import project1 from "../assets/projects/happi.jpg";
+import project2 from "../assets/projects/zora.jpg";
+import project3 from "../assets/projects/frostedge.png";
+import project4 from "../assets/projects/iot.jpg";
+import petronas from "../assets/Petronas-Logo.png";
+import evolve from "../assets/evolve.png";
 
-export const HERO_CONTENT = `Highly motivated recent Computer Science graduate with a strong foundation in programming and software development. Seeking to gain exposure to a genuine professional career. Proficient in Flutter, Laravel, React.Js and other programming framework, with exceptional skills in algorithms and data structures. Adept at working in cross-functional environments and eager to leverage my technical skills to enhance system efficiency and user experience.`;
+export const HERO_CONTENT = `Software Engineer with experience building and deploying enterprise and IoT-integrated systems across mobile and web platforms. Skilled in backend and full-stack development using NestJS, Spring Boot, React Native, Laravel, and Vue.js. Specialized in API development, system integration, AI automation and cloud deployment on AWS.`;
 
-export const ABOUT_TEXT = `I am a dedicated and versatile developer with a passion for creating efficient, user-friendly web applications. Recently graduated with a degree in Computer Science, I’ve gained hands-on experience through various projects using technologies like React, Next.js,Laravel, Flutter, Firebase and MySQL. My journey in software development began with a curiosity about how things work, which has grown into a commitment to learning and adapting to new challenges. I thrive in collaborative environments and am eager to solve complex problems to deliver impactful solutions. Outside of coding, I enjoy exploring emerging technologies and contributing to open-source projects.`;
+export const ABOUT_TEXT = `I am a Software Engineer experienced in delivering real-world systems including insurance mobile applications, ERP platforms, and IoT monitoring solutions integrated with ESP32 devices. My expertise spans backend and full-stack development with strong proficiency in NestJS, Spring Boot, React Native, Laravel, and Vue.js. I have successfully designed and optimized databases using MySQL, deployed applications on AWS cloud infrastructure, and integrated RFID/EPC and IoT devices for real-time data collection. Focused on building scalable, efficient, and data-driven systems for real-time operations and monitoring. I thrive in collaborative environments and am passionate about solving complex technical challenges and delivering impactful solutions.`;
 
 
 export const EXPERIENCES = [
   {
-    year: " July 2024 - Oct 2024",
+    year: "March 2026 - Present",
+    role: "Software Engineer II",
+    company: "Evolve Technology Platform Sdn Bhd",
+    logo: evolve,
+    description: `Designed and optimized databases using MySQL. Deployed and managed applications on AWS cloud infrastructure. Integrated RFID/EPC and ESP32-based IoT devices for real-time data collection and monitoring. Collaborated with cross-functional teams to deliver end-to-end solutions.`,
+    technologies: ["MySQL", "AWS", "IoT", "RFID/EPC", "ESP32"],
+  },
+  {
+    year: "Feb 2025 - March 2026",
+    role: "Junior Software Engineer",
+    company: "Evolve Technology Platform Sdn Bhd",
+    logo: evolve,
+    description: `Developed and maintained enterprise applications across mobile, web, and IoT-integrated systems. Built scalable backend services using Spring Boot and NestJS. Developed cross-platform mobile applications using React Native. Created admin dashboards and monitoring systems using Vue.js.`,
+    technologies: ["Spring Boot", "NestJS", "React Native", "Vue.js", "MySQL"],
+  },
+  {
+    year: "July 2024 - Oct 2024",
     role: "Intern",
     company: "PETRONAS",
-    description: `Updated Microsoft Excel and assisted team in maintaining Power BI dashboards for various business portfolios, ensuring accurate and up-to-date data visualization for P4R 2024-2029.`,
-    technologies: ["Microsoft Excel", "Microsoft Power BI"],
+    logo: petronas,
+    description: `Updated Microsoft Excel and assisted team in maintaining Power BI dashboards for various business portfolios, ensuring accurate and up-to-date data visualization for P4R 2024-2029. Assisted in extracting Budget Transfer for all 9 pillars and 3 enablers in the department.`,
+    technologies: ["Microsoft Excel", "Microsoft Power BI", "Data Analysis"],
   },
 ];
 
 export const PROJECTS = [
   {
-    title: "Restaurant Finder and Recommendations Mobile App",
+    title: "HAPPI Malaysia Insurance Mobile Application",
     image: project1,
     description:
-      "A mobile apps where users can discover nearby restaurants and receive personalized automatic recommendations based on their preferences, ensuring a delightful dining experience.",
-    technologies: ["Flutter", "Dart", "Firebase"],
+      "Developed mobile application features using React Native and Vue.js. Built backend APIs using Spring Boot. Developed admin panel using Vue.js. Successfully deployed on Google App Store and Apple App Store.",
+    technologies: ["React Native", "Vue.js", "Spring Boot", "Java"],
   },
   {
-    title: "Event Manager Web Application",
+    title: "Zora Pro ERP System",
     image: project2,
     description:
-      "A dynamic web application to buy event ticket and event management using Laravel, with the Model-View-Controller (MVC) architecture.",
-    technologies: ["Laravel", "PHP", "MySQL", "HTML", "CSS", "Javascript" ],
+      "Developed ERP system covering warehouse, manufacturing, and reporting modules. Built backend services using NestJS. Integrated RFID/EPC technology for automated stock tracking. Developed admin dashboard for real-time monitoring and management.",
+    technologies: ["NestJS", "TypeScript", "RFID/EPC", "MySQL", "React"],
   },
   {
-    title: "Vaccination System",
+    title: "FrostEdge Smart Freezer Monitoring System",
     image: project3,
     description:
-      "A comprehensive application for vaccination in Java with four user interfaces: Ministry of Health, Vaccination Centre, Vaccine Hall Simulator, and General Public.",
-    technologies: ["Java", "MySQL"],
+      "Developed internal web-based admin system to monitor smart freezer conditions in real-time. Integrated ESP32 sensors to collect temperature and freezer status data. Built backend services to process and store sensor data. Designed dashboard for real-time visualization with Telegram and email alerts.",
+    technologies: ["ESP32", "IoT", "React", "Node.js", "MySQL", "Telegram API"],
   },
   {
-    title: "Budget Planner",
+    title: "Smart IoT Monitoring Dashboard",
     image: project4,
     description:
-      "A mobile apps for planning expenses and budget.",
-    technologies: ["Kotlin", "MySQL"],
+      "Real-time monitoring and analytics platform for IoT devices integration and system status tracking.",
+    technologies: ["AWS", "Vue.js", "MySQL", "RFID"],
   },
 ];
 
