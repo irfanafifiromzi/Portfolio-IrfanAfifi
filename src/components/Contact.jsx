@@ -1,38 +1,68 @@
 import { CONTACT } from "../constants";
+import SectionHeading from "./SectionHeading";
 import { motion } from "framer-motion"
-import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import emailjs from "emailjs-com";
 
+// Mirrors the selectable chips on tubik's own enquiry form.
+const TOPICS = [
+  "Backend / APIs",
+  "Full-stack build",
+  "Mobile app",
+  "IoT integration",
+  "Cloud & deployment",
+  "Something else",
+];
+
+const FIELDS = [
+  { name: "name", label: "Your name", type: "text", placeholder: "Jane Doe" },
+  { name: "email", label: "Email address", type: "email", placeholder: "jane@company.com" },
+];
+
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [topics, setTopics] = useState([]);
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
-  const [messageType, setMessageType] = useState(""); // "success" or "error"
+  const [messageType, setMessageType] = useState("");
+  const [copied, setCopied] = useState(false);
 
-  // Initialize EmailJS with your public key
   useEffect(() => {
     emailjs.init("S4e2HvDA87enV3_MA");
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const toggleTopic = (topic) => {
+    setTopics((prev) =>
+      prev.includes(topic) ? prev.filter((t) => t !== topic) : [...prev, topic]
+    );
+  };
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard unavailable — the address is still selectable/clickable.
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validation
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-      setStatusMessage("Please fill in all fields");
+
+    if (!formData.name.trim() || !formData.email.trim()) {
+      setStatusMessage("Please add your name and email so I can reply.");
+      setMessageType("error");
+      return;
+    }
+    if (!formData.message.trim() && topics.length === 0) {
+      setStatusMessage("Pick what you need, or tell me about the project.");
       setMessageType("error");
       return;
     }
@@ -40,183 +70,194 @@ const Contact = () => {
     setLoading(true);
     setStatusMessage("");
 
+    // Fold the selected chips into the message body so the existing EmailJS
+    // template keeps working unchanged.
+    const body = topics.length
+      ? `Interested in: ${topics.join(", ")}\n\n${formData.message}`.trim()
+      : formData.message;
+
     try {
-      // Replace with your EmailJS service ID and template ID
-      const response = await emailjs.send(
-        "service_uw1cwbl",
-        "template_497vhqn",
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-          to_email: CONTACT.email,
-        }
-      );
+      const response = await emailjs.send("service_uw1cwbl", "template_497vhqn", {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: body,
+        to_email: CONTACT.email,
+      });
 
       if (response.status === 200) {
-        setStatusMessage("Message sent successfully! I'll get back to you soon.");
+        setStatusMessage("Thanks — your message is on its way. I'll get back to you soon.");
         setMessageType("success");
         setFormData({ name: "", email: "", message: "" });
+        setTopics([]);
       }
     } catch (error) {
       console.error("EmailJS Error:", error);
-      setStatusMessage("Failed to send message. Please try again or contact me directly.");
+      setStatusMessage("That didn't send. Try again, or email me directly.");
       setMessageType("error");
     } finally {
       setLoading(false);
     }
   };
+
   return (
-    <div className="border-b border-transparent pb-24">
-      <motion.h2 
-        whileInView={{ opacity: 1, y: 0 }}
-        initial={{ opacity: 0, y: -100 }}
-        transition={{ duration: 0.5 }}
-        className="my-20 text-center text-4xl font-light"
-      >
-        Get In Touch
-      </motion.h2>
+    <div id="contact" className="border-t border-ink-200 py-24">
+      <SectionHeading kicker="Contact" title="Let's make it happen" />
 
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="max-w-4xl mx-auto px-4 lg:px-0"
-      >
-        {/* Main Contact Card */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="space-y-6"
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.35fr] gap-14 lg:gap-24">
+        {/* Details — typographic, no boxes */}
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+            </span>
+            <span className="text-xs font-semibold uppercase tracking-widest2 text-ink-500">
+              Available for work
+            </span>
+          </div>
+
+          <a
+            href={`mailto:${CONTACT.email}`}
+            className="mt-8 block font-display text-2xl lg:text-[clamp(1.5rem,2vw,2rem)] font-light leading-tight text-ink-900 transition-colors hover:text-accent break-all"
           >
-            <p className="text-gray-700 leading-relaxed mb-8 text-sm sm:text-base">
-              I'm always interested in hearing about new projects and opportunities. Feel free to reach out!
-            </p>
-
-            {/* Contact Items */}
-            <motion.a
-              href={`mailto:${CONTACT.email}`}
-              whileHover={{ x: 10 }}
-              className="flex items-start gap-4 p-4 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 hover:shadow-lg transition-shadow duration-300 group"
-            >
-              <div className="mt-1 p-3 bg-purple-600 rounded-lg group-hover:scale-110 transition-transform flex-shrink-0">
-                <Mail className="text-white" size={18} />
-              </div>
-              <div className="min-w-0">
-                <p className="font-semibold text-gray-900 text-sm sm:text-base">Email</p>
-                <p className="text-purple-600 font-medium text-xs sm:text-sm break-all">{CONTACT.email}</p>
-              </div>
-            </motion.a>
-
-            <motion.a
-              href={`tel:${CONTACT.phoneNo}`}
-              whileHover={{ x: 10 }}
-              className="flex items-start gap-4 p-4 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 hover:shadow-lg transition-shadow duration-300 group"
-            >
-              <div className="mt-1 p-3 bg-purple-600 rounded-lg group-hover:scale-110 transition-transform flex-shrink-0">
-                <Phone className="text-white" size={18} />
-              </div>
-              <div>
-                <p className="font-semibold text-gray-900 text-sm sm:text-base">Phone</p>
-                <p className="text-purple-600 font-medium text-xs sm:text-sm">{CONTACT.phoneNo}</p>
-              </div>
-            </motion.a>
-
-            <motion.div
-              whileHover={{ x: 10 }}
-              className="flex items-start gap-4 p-4 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 hover:shadow-lg transition-shadow duration-300 group"
-            >
-              <div className="mt-1 p-3 bg-purple-600 rounded-lg group-hover:scale-110 transition-transform flex-shrink-0">
-                <MapPin className="text-white" size={18} />
-              </div>
-              <div className="min-w-0">
-                <p className="font-semibold text-gray-900 text-sm sm:text-base">Location</p>
-                <p className="text-purple-600 font-medium text-xs sm:text-sm leading-tight">{CONTACT.address}</p>
-              </div>
-            </motion.div>
-          </motion.div>
-
-          {/* Contact Form */}
-          <motion.form
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="space-y-4"
-            onSubmit={handleSubmit}
+            {CONTACT.email}
+          </a>
+          <button
+            type="button"
+            onClick={copyEmail}
+            className="mt-3 text-xs font-semibold uppercase tracking-widest2 text-ink-400 underline underline-offset-4 transition-colors hover:text-accent"
           >
+            {copied ? "copied" : "copy address"}
+          </button>
+
+          <dl className="mt-12 space-y-8">
             <div>
-              <input
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg bg-white border-2 border-purple-200 focus:border-purple-600 focus:outline-none transition-colors placeholder-gray-500 text-sm sm:text-base"
-              />
+              <dt className="text-xs font-semibold uppercase tracking-widest2 text-ink-400">
+                Phone
+              </dt>
+              <dd className="mt-2">
+                <a href={`tel:${CONTACT.phoneNo}`} className="text-ink-900 transition-colors hover:text-accent">
+                  {CONTACT.phoneNo}
+                </a>
+              </dd>
             </div>
+            <div>
+              <dt className="text-xs font-semibold uppercase tracking-widest2 text-ink-400">
+                Based in
+              </dt>
+              <dd className="mt-2 max-w-xs leading-relaxed text-ink-700">{CONTACT.address}</dd>
+            </div>
+          </dl>
+        </motion.div>
+
+        {/* Enquiry form — underline fields, no nested card */}
+        <motion.form
+          onSubmit={handleSubmit}
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          <p className="text-xs font-semibold uppercase tracking-widest2 text-ink-400">
+            What do you need?
+          </p>
+          <div className="mt-5 flex flex-wrap gap-2.5">
+            {TOPICS.map((topic) => {
+              const selected = topics.includes(topic);
+              return (
+                <button
+                  key={topic}
+                  type="button"
+                  onClick={() => toggleTopic(topic)}
+                  aria-pressed={selected}
+                  className={`rounded-full px-4 py-2.5 text-sm transition-colors duration-200 ${
+                    selected
+                      ? "bg-accent text-white"
+                      : "bg-white text-ink-700 hover:text-ink-900"
+                  }`}
+                >
+                  {topic}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="mt-12 space-y-9">
+            {FIELDS.map((field) => (
+              <div key={field.name}>
+                <label
+                  htmlFor={field.name}
+                  className="block text-xs font-semibold uppercase tracking-widest2 text-ink-400"
+                >
+                  {field.label}
+                </label>
+                <input
+                  id={field.name}
+                  type={field.type}
+                  name={field.name}
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                  placeholder={field.placeholder}
+                  className="mt-3 w-full border-b border-ink-300 bg-transparent pb-3 text-lg text-ink-900 placeholder-ink-300 transition-colors focus:border-accent focus:outline-none"
+                />
+              </div>
+            ))}
 
             <div>
-              <input
-                type="email"
-                name="email"
-                placeholder="Your Email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg bg-white border-2 border-purple-200 focus:border-purple-600 focus:outline-none transition-colors placeholder-gray-500 text-sm sm:text-base"
-              />
-            </div>
-
-            <div>
+              <label
+                htmlFor="message"
+                className="block text-xs font-semibold uppercase tracking-widest2 text-ink-400"
+              >
+                Project details <span className="normal-case tracking-normal">(optional)</span>
+              </label>
               <textarea
+                id="message"
                 name="message"
-                placeholder="Your Message"
-                rows="4"
+                rows="3"
                 value={formData.message}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg bg-white border-2 border-purple-200 focus:border-purple-600 focus:outline-none transition-colors placeholder-gray-500 resize-none text-sm sm:text-base"
-              ></textarea>
+                placeholder="What are you building?"
+                className="mt-3 w-full resize-none border-b border-ink-300 bg-transparent pb-3 text-lg text-ink-900 placeholder-ink-300 transition-colors focus:border-accent focus:outline-none"
+              />
             </div>
+          </div>
 
-            {/* Status Message */}
-            {statusMessage && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={`p-3 rounded-lg flex items-center gap-2 text-sm sm:text-base ${
-                  messageType === "success"
-                    ? "bg-green-100 text-green-800 border border-green-300"
-                    : "bg-red-100 text-red-800 border border-red-300"
-                }`}
-              >
-                {messageType === "success" ? (
-                  <CheckCircle size={18} />
-                ) : (
-                  <AlertCircle size={18} />
-                )}
-                {statusMessage}
-              </motion.div>
-            )}
-
-            <motion.button
-              type="submit"
-              disabled={loading}
-              whileHover={{ scale: loading ? 1 : 1.02 }}
-              whileTap={{ scale: loading ? 1 : 0.98 }}
-              className={`w-full ${
-                loading
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-gradient-to-r from-purple-600 to-pink-500 hover:shadow-lg"
-              } text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-shadow duration-300`}
+          {statusMessage && (
+            <motion.p
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`mt-8 text-sm ${
+                messageType === "success" ? "text-accent" : "text-red-600"
+              }`}
             >
-              <Send size={18} />
-              {loading ? "Sending..." : "Send Message"}
-            </motion.button>
-          </motion.form>
-        </div>
-      </motion.div>
+              {statusMessage}
+            </motion.p>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className={`group mt-10 inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-medium transition-colors duration-300 ${
+              loading
+                ? "cursor-not-allowed bg-ink-200 text-ink-400"
+                : "bg-ink-900 text-white hover:bg-accent"
+            }`}
+          >
+            {loading ? "Sending..." : "Send message"}
+            {!loading && (
+              <ArrowRight
+                size={16}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            )}
+          </button>
+        </motion.form>
+      </div>
     </div>
   )
 }

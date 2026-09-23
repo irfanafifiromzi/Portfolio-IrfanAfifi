@@ -1,79 +1,70 @@
-import AboutCarousel from "./AboutCarousel";
+import AboutGallery from "./AboutGallery";
+import SectionHeading from "./SectionHeading";
 import { ABOUT_TEXT } from "../constants";
 import { motion } from "framer-motion"
 import { CheckCircle } from "lucide-react";
 
+const HIGHLIGHTS = [
+  "Enterprise & IoT Systems",
+  "Full-Stack Development",
+  "API Development",
+  "Cloud Deployment (AWS)",
+  "Database Design",
+  "Real-time Solutions"
+];
+
 const About = () => {
-  const highlights = [
-    "Enterprise & IoT Systems",
-    "Full-Stack Development",
-    "API Development",
-    "Cloud Deployment (AWS)",
-    "Database Design",
-    "Real-time Solutions"
-  ];
-
   return (
-    <div className="border-b border-transparent pb-24">
-      <motion.h2 
-        whileInView={{ opacity: 1, y: 0 }}
-        initial={{ opacity: 0, y: -100 }}
-        transition={{ duration: 0.5 }}
-        className="my-20 text-center text-4xl font-light"
-      >
-        About Me
-      </motion.h2>
+    <div id="about" className="border-t border-ink-200 py-24">
+      <SectionHeading kicker="About" title="Who I am" />
 
-      {/* Centered Container */}
-      <div className="max-w-4xl mx-auto px-4 lg:px-0">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
-          
-          {/* Image Carousel - Left on desktop, full width on mobile */}
-          <motion.div
-            whileInView={{ opacity: 1, x: 0 }}
-            initial={{ opacity: 0, x: -100 }}
-            transition={{ duration: 0.5 }}
-            className="w-full lg:w-2/5 flex-shrink-0"
-          >
-            <AboutCarousel />
-          </motion.div>
+      <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-12 lg:gap-16 items-start">
+        <motion.p
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+          className="text-ink-500 font-light leading-relaxed text-lg lg:text-xl"
+        >
+          {ABOUT_TEXT}
+        </motion.p>
 
-          {/* Content Section - Right on desktop, full width on mobile */}
-          <motion.div 
-            whileInView={{ opacity: 1, x: 0 }}
-            initial={{ opacity: 0, x: 100 }}
-            transition={{ duration: 0.5 }}
-            className="w-full lg:w-3/5"
-          >
-            <div className="space-y-6">
-              <p className="text-gray-700 font-light tracking-tighter leading-relaxed text-lg">
-                {ABOUT_TEXT}
-              </p>
-
-              {/* Highlights Grid */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-8"
-              >
-                {highlights.map((highlight, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: idx * 0.1 }}
-                    className="flex items-center gap-2 bg-purple-50 rounded-lg p-3"
-                  >
-                    <CheckCircle className="text-purple-600 flex-shrink-0" size={18} />
-                    <span className="text-xs sm:text-sm font-medium text-gray-700">{highlight}</span>
-                  </motion.div>
-                ))}
-              </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="grid grid-cols-2 gap-3"
+        >
+          {HIGHLIGHTS.map((highlight, idx) => (
+            <div
+              key={idx}
+              className="flex items-center gap-2 rounded-lg border border-ink-200 p-3"
+            >
+              <CheckCircle className="text-accent flex-shrink-0" size={16} />
+              <span className="text-xs sm:text-sm font-medium text-ink-700">{highlight}</span>
             </div>
-          </motion.div>
-        </div>
+          ))}
+        </motion.div>
       </div>
+
+      {/* Photo library */}
+      <motion.div
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
+        transition={{ duration: 0.7 }}
+        className="mt-20"
+      >
+        <p className="mb-6 text-xs font-semibold uppercase tracking-widest2 text-ink-400">
+          Photo library &mdash; drag to browse
+        </p>
+        {/* Full-bleed: the curved gallery is meant to run off both edges.
+            Breaks out of the centred container without affecting layout. */}
+        <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen">
+          <AboutGallery />
+        </div>
+      </motion.div>
     </div>
   )
 }

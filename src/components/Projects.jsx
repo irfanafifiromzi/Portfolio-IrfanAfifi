@@ -1,27 +1,17 @@
-import { PROJECTS } from "../constants"
-import ProjectCarousel from "./ProjectCarousel"
-import { motion } from "framer-motion"
+import { PROJECTS, PERSONAL_PROJECTS } from "../constants"
+import ProjectShowcase from "./ProjectShowcase"
+import SectionHeading from "./SectionHeading"
 
 const Projects = () => {
   return (
-    <div id="projects" className="border-b border-transparent pb-24">
-      <motion.h2 
-        whileInView={{ opacity: 1, y: 0 }}
-        initial={{ opacity: 0, y: -100 }}
-        transition={{ duration: 0.5 }}
-        className="my-20 text-center text-4xl font-light"
-      >
-        Featured Projects
-      </motion.h2>
-      
-      <motion.div
-        whileInView={{ opacity: 1, y: 0 }}
-        initial={{ opacity: 0, y: 50 }}
-        transition={{ duration: 0.8 }}
-        className="px-2 sm:px-4 lg:px-0"
-      >
-        <ProjectCarousel projects={PROJECTS} />
-      </motion.div>
+    <div id="projects" className="border-t border-ink-200 py-24">
+      <SectionHeading kicker="Selected work" title="Featured projects" />
+      <ProjectShowcase projects={PROJECTS} />
+
+      <div className="mt-24">
+        <SectionHeading kicker="Side projects" title="Personal projects" />
+        <ProjectShowcase projects={PERSONAL_PROJECTS} />
+      </div>
     </div>
   )
 }

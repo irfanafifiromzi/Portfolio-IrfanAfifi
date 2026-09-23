@@ -1,177 +1,128 @@
+import { useRef } from "react";
 import { EXPERIENCES } from "../constants"
-import { motion } from "framer-motion"
-import { Briefcase, Calendar } from "lucide-react";
+import { motion, useScroll, useSpring, useInView } from "framer-motion"
+import SectionHeading from "./SectionHeading";
 
-const Experience = () => {
+const EASE = [0.16, 1, 0.3, 1];
+
+const ExperienceItem = ({ experience, index, total }) => {
+  const ref = useRef(null);
+  // Fires when the row reaches the middle band of the viewport, so the node
+  // lights up in step with the progress line passing it.
+  const isActive = useInView(ref, { margin: "-45% 0px -45% 0px" });
+  const isCurrent = experience.year.toLowerCase().includes("present");
+
   return (
-    <div className="border-b border-transparent pb-24">
-      <motion.h2 
-        whileInView={{ opacity: 1, y: 0 }}
-        initial={{ opacity: 0, y: -100 }}
-        transition={{ duration: 0.5 }}
-        className="my-20 text-center text-4xl font-light"
-      >
-        Experience
-      </motion.h2>
-      
-      {/* Desktop Timeline View */}
-      <div className="hidden md:block relative px-4">
-        {/* Timeline line - positioned safely */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-purple-600 to-pink-500 rounded-full top-12"></div>
-
-        <div className="space-y-16 relative z-10">
-          {EXPERIENCES.map((experience, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`flex gap-12 ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
-            >
-              {/* Left/Right Content */}
-              <div className="w-1/2">
-                <motion.div
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
-                  className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border-l-4 border-purple-600 shadow-lg hover:shadow-xl transition-shadow duration-300"
-                >
-                  {/* Year */}
-                  <div className="flex items-center gap-2 mb-3">
-                    <Calendar size={16} className="text-purple-600" />
-                    <p className="text-sm font-semibold text-purple-600">
-                      {experience.year}
-                    </p>
-                  </div>
-
-                  {/* Role */}
-                  <h6 className="mb-3 font-bold text-lg text-gray-900 flex items-center gap-2">
-                    <Briefcase size={20} className="text-purple-600" />
-                    {experience.role}
-                  </h6>
-
-                  {/* Company with Logo */}
-                  <div className="flex items-center gap-3 mb-3">
-                    {experience.logo && (
-                      <img 
-                        src={experience.logo} 
-                        alt={experience.company} 
-                        className="h-8 w-auto object-contain"
-                      />
-                    )}
-                    <p className="text-purple-600 font-semibold">
-                      @ {experience.company}
-                    </p>
-                  </div>
-
-                  {/* Description */}
-                  <p className="mb-4 text-gray-700 leading-relaxed text-sm">
-                    {experience.description}
-                  </p>
-
-                  {/* Technologies */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: index * 0.1 + 0.3 }}
-                    className="flex flex-wrap gap-2"
-                  >
-                    {experience.technologies.map((tech, idx) => (
-                      <motion.span
-                        key={idx}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: index * 0.1 + 0.3 + idx * 0.05 }}
-                        className="bg-white text-purple-600 text-xs font-medium px-3 py-1 rounded-full border border-purple-200 hover:border-purple-600 transition-colors"
-                      >
-                        {tech}
-                      </motion.span>
-                    ))}
-                  </motion.div>
-                </motion.div>
-              </div>
-
-              {/* Timeline Dot */}
-              <div className="flex justify-center pt-2">
-                <div className="w-6 h-6 bg-white border-4 border-purple-600 rounded-full"></div>
-              </div>
-
-              {/* Empty space for alternate layout */}
-              <div className="w-1/2"></div>
-            </motion.div>
-          ))}
-        </div>
+    <div ref={ref} className="relative flex gap-5 sm:gap-10">
+      {/* Rail column — the node sits on the line drawn by the parent */}
+      <div className="relative flex w-3 shrink-0 justify-center">
+        <motion.span
+          animate={{
+            scale: isActive ? 1 : 0.55,
+            backgroundColor: isActive ? "#4c32ff" : "#c9c9d4",
+          }}
+          transition={{ duration: 0.45, ease: EASE }}
+          className="absolute top-10 h-3 w-3 rounded-full ring-4 ring-ink-100"
+        />
+        {isCurrent && (
+          <motion.span
+            animate={{ scale: [1, 2.1, 1], opacity: [0.5, 0, 0.5] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeOut" }}
+            className="absolute top-10 h-3 w-3 rounded-full bg-accent"
+          />
+        )}
       </div>
 
-      {/* Mobile Timeline View - Stacked */}
-      <div className="md:hidden px-4 space-y-8">
-        {EXPERIENCES.map((experience, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="relative pl-8"
-          >
-            {/* Mobile timeline line */}
-            {index !== EXPERIENCES.length - 1 && (
-              <div className="absolute left-3 top-12 bottom-0 w-0.5 bg-gradient-to-b from-purple-600 to-pink-500"></div>
-            )}
-
-            {/* Mobile timeline dot */}
-            <div className="absolute left-0 top-2 w-6 h-6 bg-white border-4 border-purple-600 rounded-full"></div>
-
-            {/* Mobile content card */}
-            <motion.div
-              className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-5 border-l-4 border-purple-600 shadow-lg"
+      {/* Card */}
+      <motion.article
+        initial={{ opacity: 0, y: 36 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 0.65, ease: EASE }}
+        className="group mb-5 flex-1 rounded-3xl bg-white p-7 sm:p-9 lg:p-11 shadow-[0_1px_2px_rgba(10,10,10,0.04)] transition-shadow duration-500 hover:shadow-[0_24px_60px_-28px_rgba(10,10,10,0.3)]"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <motion.span
+              animate={{ color: isActive ? "#4c32ff" : "#787c8d" }}
+              transition={{ duration: 0.45 }}
+              className="text-xs font-semibold uppercase tracking-widest2"
             >
-              {/* Year */}
-              <div className="flex items-center gap-2 mb-2">
-                <Calendar size={14} className="text-purple-600" />
-                <p className="text-xs font-semibold text-purple-600">
-                  {experience.year}
-                </p>
-              </div>
+              {experience.year}
+            </motion.span>
+            {isCurrent && (
+              <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
+                Now
+              </span>
+            )}
+          </div>
 
-              {/* Role */}
-              <h6 className="mb-2 font-bold text-base text-gray-900 flex items-center gap-2">
-                <Briefcase size={18} className="text-purple-600" />
-                {experience.role}
-              </h6>
+          <span className="font-mono text-xs text-ink-300">
+            {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+          </span>
+        </div>
 
-              {/* Company with Logo */}
-              <div className="flex items-center gap-2 mb-2">
-                {experience.logo && (
-                  <img 
-                    src={experience.logo} 
-                    alt={experience.company} 
-                    className="h-6 w-auto object-contain"
-                  />
-                )}
-                <p className="text-purple-600 font-semibold text-sm">
-                  @ {experience.company}
-                </p>
-              </div>
+        <h3 className="mt-6 font-display font-light leading-[1.05] text-ink-900 text-3xl lg:text-[clamp(1.75rem,2.4vw,2.5rem)]">
+          {experience.role}
+        </h3>
 
-              {/* Description */}
-              <p className="mb-3 text-gray-700 leading-relaxed text-xs">
-                {experience.description}
-              </p>
+        <div className="mt-4 flex items-center gap-3">
+          {experience.logo && (
+            <img
+              src={experience.logo}
+              alt=""
+              className="h-6 w-auto object-contain opacity-90"
+            />
+          )}
+          <p className="text-base text-ink-500">{experience.company}</p>
+        </div>
 
-              {/* Technologies */}
-              <div className="flex flex-wrap gap-2">
-                {experience.technologies.map((tech, idx) => (
-                  <span
-                    key={idx}
-                    className="bg-white text-purple-600 text-xs font-medium px-2 py-1 rounded-full border border-purple-200"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          </motion.div>
-        ))}
+        <p className="mt-7 max-w-2xl font-light leading-relaxed text-ink-700">
+          {experience.description}
+        </p>
+
+        <div className="mt-8 border-t border-ink-200 pt-5">
+          <p className="text-sm text-ink-400">
+            {experience.technologies.join("  /  ")}
+          </p>
+        </div>
+      </motion.article>
+    </div>
+  );
+};
+
+const Experience = () => {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 75%", "end 65%"],
+  });
+  // Smooth the raw scroll value so the line eases rather than tracking 1:1.
+  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 22, mass: 0.35 });
+
+  return (
+    <div id="experience" className="border-t border-ink-200 py-24">
+      <SectionHeading kicker="Career" title="Experience" />
+
+      <div ref={containerRef} className="relative">
+        {/* Timeline track */}
+        <div className="absolute left-[6px] top-2 bottom-2 w-px bg-ink-200" />
+        {/* Timeline progress — fills as the section scrolls past */}
+        <motion.div
+          style={{ scaleY: progress }}
+          className="absolute left-[6px] top-2 bottom-2 w-px origin-top bg-accent"
+        />
+
+        <div className="flex flex-col">
+          {EXPERIENCES.map((experience, index) => (
+            <ExperienceItem
+              key={index}
+              experience={experience}
+              index={index}
+              total={EXPERIENCES.length}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )

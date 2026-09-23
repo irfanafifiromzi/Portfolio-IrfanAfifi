@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Tourney:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,4 +6,108 @@
 
 :root {
   font-family: "Inter", sans-serif;
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Slightly off-white (matches tubikstudio.com's actual page bg). This is
+   what makes the header's white glass panel visibly float above the page —
+   pure white glass on a pure white page has zero contrast, so no amount of
+   blur reads as "glass" until something with contrast sits behind it. */
+body {
+  background-color: #f4f4f4;
+  color: #0a0a0a;
+}
+
+::selection {
+  background-color: #c9c1ff;
+  color: #0a0a0a;
+}
+
+/* Thin scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+::-webkit-scrollbar-thumb {
+  background: #e3e3eb;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c7c7d4;
+}
+
+/* Custom cursor art, applied natively rather than drawn with JS — no lag,
+   nothing floating over the page that can cover what you are pointing at,
+   and it degrades to the system cursor if the SVG fails to load. */
+html,
+body {
+  cursor: url("/cursor-arrow.svg") 2 1, auto;
+}
+
+a,
+button,
+[role="button"],
+label,
+summary,
+select {
+  cursor: url("/cursor-hand.svg") 12 3, pointer;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  cursor: text;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* The WebGL gallery keeps grab/grabbing so it reads as draggable */
+[data-cursor="drag"],
+[data-cursor="drag"] * {
+  cursor: grab;
+}
+[data-cursor="drag"]:active,
+[data-cursor="drag"] *:active {
+  cursor: grabbing;
+}
+
+/* Seamless marquee: the track holds two copies of the list and shifts by
+   exactly half its own width, so the loop point is invisible at any content
+   width (the old JS version guessed a pixel offset and visibly jumped). */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee-x 45s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
+/* Fade mask for horizontal marquee-style rows */
+.fade-mask-x {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+/* Display headline. Matches tubik's .heading-120: regular weight (400,
+   NOT bold — the size carries it), 95% line-height, tight tracking. */
+.display-heading {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
 }

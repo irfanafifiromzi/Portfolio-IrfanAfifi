@@ -1,24 +1,33 @@
-import { HERO_CONTENT } from "../constants";
 import profilePic from "../assets/irfan2.jpg";
 import resumePDF from "../assets/IrfanAfifiRomzi_Resume.pdf";
 import { motion } from "framer-motion"
-import { Zap, Download } from "lucide-react";
+import { Download } from "lucide-react";
+import { RiReactjsLine, RiFlutterLine } from "react-icons/ri";
+import { SiNestjs, SiSpringboot, SiVuedotjs } from "react-icons/si";
+import { FaAws } from "react-icons/fa";
 
 const container = (delay) => ({
-  hidden: {x: -100, opacity: 0},
+  hidden: { y: 24, opacity: 0 },
   visible: {
-    x: 0,
+    y: 0,
     opacity: 1,
-    transition: {duration: 0.5, delay: delay}
+    transition: { duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }
   }
 });
 
+// The equivalent of tubik's award-logo row under the hero headline.
+const STACK_ICONS = [
+  { icon: RiReactjsLine, label: "React" },
+  { icon: SiNestjs, label: "NestJS" },
+  { icon: SiSpringboot, label: "Spring Boot" },
+  { icon: SiVuedotjs, label: "Vue.js" },
+  { icon: FaAws, label: "AWS" },
+  { icon: RiFlutterLine, label: "Flutter" },
+];
+
 const Home = () => {
   const scrollToProjects = () => {
-    const projectsSection = document.getElementById("projects");
-    if (projectsSection) {
-      projectsSection.scrollIntoView({ behavior: "smooth" });
-    }
+    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const downloadResume = () => {
@@ -29,119 +38,86 @@ const Home = () => {
     link.click();
     document.body.removeChild(link);
   };
+
   return (
-    <div className="border-b border-transparent pb-4 lg:mb-35">
-      <div className="flex flex-col lg:flex-row gap-8 lg:gap-0">
-        <div className="w-full lg:w-1/2">
-          <div className="flex flex-col items-center lg:items-start">
-            {/* Badge */}
-            <motion.div
-              variants={container(0)}
-              initial="hidden"
-              animate="visible"
-              className="mb-6 flex items-center gap-2 bg-purple-100 bg-opacity-20 border border-purple-400 border-opacity-40 rounded-full px-4 py-2 w-fit backdrop-blur-sm"
-            >
-              <Zap size={16} className="text-yellow-400" />
-              <span className="text-sm text-purple-700 font-medium">Available for Work</span>
-            </motion.div>
-
-            <motion.h1 
-              variants={container(0.1)}
-              initial="hidden"
-              animate="visible"
-              className="pb-4 lg:pb-16 text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-center lg:text-left"
-            >
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">
-                Irfan Afifi
-              </span>
-              <br />
-              <span className="text-gray-900">Romzi</span>
-            </motion.h1>
-
-            <motion.span   
-              variants={container(0.3)}
-              initial="hidden"
-              animate="visible"        
-              className="bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500 bg-clip-text text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-transparent mb-6 text-center lg:text-left"
-            >
-              Software Developer & Engineer
-            </motion.span>
-
-            <motion.p 
-              variants={container(0.5)}
-              initial="hidden"
-              animate="visible"
-              className="my-4 max-w-xl font-light tracking-tighter pb-4 text-gray-700 leading-relaxed text-base md:text-lg text-center lg:text-left"
-            >
-              {HERO_CONTENT}
-            </motion.p>
-
-            {/* CTA Buttons */}
-            <motion.div
-              variants={container(0.7)}
-              initial="hidden"
-              animate="visible"
-              className="flex flex-col sm:flex-row gap-4 mt-8 w-full sm:w-auto"
-            >
-              <button 
-                onClick={scrollToProjects}
-                className="bg-gradient-to-r from-purple-600 to-pink-500 text-white px-8 py-3 rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap"
-              >
-                View My Work
-              </button>
-              <button 
-                onClick={downloadResume}
-                className="border-2 border-purple-600 text-purple-600 px-8 py-3 rounded-lg font-medium hover:bg-purple-50 transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap"
-              >
-                <Download size={18} />
-                Download CV
-              </button>
-            </motion.div>
-
-            {/* Stats */}
-            <motion.div
-              variants={container(0.9)}
-              initial="hidden"
-              animate="visible"
-              className="mt-12 flex gap-6 sm:gap-8 justify-center lg:justify-start flex-wrap"
-            >
-              <div className="text-center lg:text-left">
-                <p className="text-2xl font-bold text-purple-600">2+</p>
-                <p className="text-gray-600 text-sm">Years Experience</p>
-              </div>
-              <div className="text-center lg:text-left">
-                <p className="text-2xl font-bold text-purple-600">3+</p>
-                <p className="text-gray-600 text-sm">Major Projects</p>
-              </div>
-              <div className="text-center lg:text-left">
-                <p className="text-2xl font-bold text-purple-600">10+</p>
-                <p className="text-gray-600 text-sm">Tech Stack</p>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-
-        {/* Profile Image */}
-        <div className="w-full lg:w-1/2 lg:p-8 flex justify-center">
-          <motion.div
-            initial={{ x: 100, opacity: 0, scale: 0.8 }}
-            animate={{ x: 0, opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.5, type: "spring", stiffness: 100 }}
-            className="relative group w-full sm:w-96 lg:w-full"
+    /* Hero mirrors tubikstudio.com: text column left (tagline → 3-line
+       display headline → uppercase line + logo row), square media block
+       right, both vertically centred. Sizing follows their vw-based scale. */
+    <div id="home" className="pt-28 lg:pt-[9vw] pb-20 lg:pb-[8vw]">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-14 lg:gap-[4vw]">
+        {/* Text column */}
+        <div className="flex flex-1 flex-col items-start gap-10 lg:gap-[4vw]">
+          <motion.p
+            variants={container(0)}
+            initial="hidden"
+            animate="visible"
+            className="text-lg lg:text-[1.5vw] leading-tight text-ink-900"
           >
-            {/* Gradient Border Effect */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-500 rounded-2xl blur opacity-25 group-hover:opacity-100 transition duration-1000"></div>
-            
-            {/* Image Container */}
-            <div className="relative bg-white rounded-2xl p-1 shadow-2xl">
-              <img 
-                src={profilePic} 
-                alt="Irfan Afifi" 
-                className="rounded-2xl w-full object-cover"
-              />
+            Hi, I&apos;m Irfan &mdash; a software engineer
+          </motion.p>
+
+          <motion.h1
+            variants={container(0.1)}
+            initial="hidden"
+            animate="visible"
+            className="display-heading text-ink-900 text-[15vw] sm:text-[10vw] lg:text-[clamp(3rem,6.25vw,5.75rem)]"
+          >
+            <span className="block">Building</span>
+            <span className="block">software that</span>
+            <span className="block">scales</span>
+          </motion.h1>
+
+          <motion.div
+            variants={container(0.25)}
+            initial="hidden"
+            animate="visible"
+            className="w-full"
+          >
+            <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest2 text-ink-400">
+              Full-Stack &middot; IoT Systems &middot; Cloud Deployment
+            </p>
+
+            <div className="mt-6 lg:mt-[1.6vw] flex flex-wrap items-center gap-6 lg:gap-[2.4vw]">
+              {STACK_ICONS.map(({ icon: Icon, label }) => (
+                <Icon
+                  key={label}
+                  title={label}
+                  className="text-4xl lg:text-[clamp(2rem,2.6vw,3rem)] text-ink-300 transition-colors hover:text-ink-900"
+                />
+              ))}
+            </div>
+
+            <div className="mt-10 flex flex-col sm:flex-row gap-4">
+              <button
+                onClick={scrollToProjects}
+                className="rounded-full bg-ink-900 px-8 py-3.5 text-sm font-medium text-white transition-colors duration-300 hover:bg-accent"
+              >
+                view my work
+              </button>
+              <button
+                onClick={downloadResume}
+                className="flex items-center justify-center gap-2 rounded-full border border-ink-300 px-8 py-3.5 text-sm font-medium text-ink-900 transition-colors duration-300 hover:border-ink-900"
+              >
+                <Download size={16} />
+                download CV
+              </button>
             </div>
           </motion.div>
         </div>
+
+        {/* Square media block (their hero video slot) */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full lg:w-[42%] aspect-square shrink-0 overflow-hidden rounded-3xl bg-white"
+        >
+          <img
+            src={profilePic}
+            alt="Irfan Afifi Romzi"
+            className="h-full w-full object-cover"
+          />
+        </motion.div>
       </div>
     </div>
   );
