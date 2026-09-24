@@ -20,7 +20,7 @@ import evolve from "../assets/evolve.png";
 
 export const HERO_CONTENT = `Software Engineer with experience building and deploying enterprise and IoT-integrated systems across mobile and web platforms. Skilled in backend and full-stack development using NestJS, Spring Boot, React Native, Laravel, and Vue.js. Specialized in API development, system integration, AI automation and cloud deployment on AWS.`;
 
-export const ABOUT_TEXT = `I am a Software Engineer experienced in delivering real-world systems including insurance mobile applications, ERP platforms, and IoT monitoring solutions integrated with ESP32 devices. My expertise spans backend and full-stack development with strong proficiency in NestJS, Spring Boot, React Native, Laravel, and Vue.js. I have successfully designed and optimized databases using MySQL, deployed applications on AWS cloud infrastructure, and integrated RFID/EPC and IoT devices for real-time data collection. Focused on building scalable, efficient, and data-driven systems for real-time operations and monitoring. I thrive in collaborative environments and am passionate about solving complex technical challenges and delivering impactful solutions.`;
+export const ABOUT_TEXT = `I'm a Software Engineer with 1.5+ years shipping production systems across mobile, web and IoT, including an insurance app live on Google Play and the App Store, an RFID-enabled ERP platform, and ESP32-based real-time monitoring. I work mostly on the backend with NestJS and Spring Boot, build front-ends in React, Vue.js and React Native, and deploy on AWS. I was promoted to Software Engineer II after 13 months. Outside work, I build and publish developer tools on the Microsoft Store, VS Code Marketplace and itch.io.`;
 
 
 export const EXPERIENCES = [
@@ -54,14 +54,14 @@ export const EXPERIENCES = [
 export const PROJECTS = [
   {
     slug: "happi-malaysia-insurance",
-    title: "HAPPI Malaysia Insurance Mobile Application",
-    tagline: "Insurance mobile app for HAPPI Malaysia",
+    title: "HAPPI Malaysia Insurance Mobile App",
+    tagline: "Insurance app live on Google Play and the App Store",
     image: project1,
     // Optional: shown on the project detail page instead of `image`, which
     // stays the card thumbnail. Falls back to `image` when not set.
     cover: project1Cover,
     description:
-      "Developed mobile application features using React Native and Vue.js. Built backend APIs using Spring Boot. Developed admin panel using Vue.js. Successfully deployed on Google App Store and Apple App Store.",
+      "Built mobile app features in React Native and a Vue.js admin panel for internal operations. Developed the backend REST APIs in Spring Boot (Java). The app is live on the Google Play Store and the Apple App Store.",
     technologies: ["React Native", "Vue.js", "Spring Boot", "Java"],
     type: "Professional Project",
     context: "Evolve Technology Platform Sdn Bhd",
@@ -73,39 +73,39 @@ export const PROJECTS = [
   {
     slug: "zora-pro-erp",
     title: "Zora Pro ERP System",
-    tagline: "ERP system for warehouse, manufacturing & reporting",
+    tagline: "RFID-enabled ERP for warehouse, manufacturing & reporting",
     image: project2,
     cover: project2Cover,
     // This cover is portrait (1080x1440). Crop it to a banner on the detail
     // page so it stays full width instead of shrinking to a narrow strip.
     coverCrop: true,
     description:
-      "Developed ERP system covering warehouse, manufacturing, and reporting modules. Built backend services using NestJS. Integrated RFID/EPC technology for automated stock tracking. Developed admin dashboard for real-time monitoring and management.",
-    technologies: ["NestJS", "TypeScript", "RFID/EPC", "MySQL", "React"],
-    type: "Professional Project",
-    context: "Evolve Technology Platform Sdn Bhd",
-  },
-  {
-    slug: "frostedge-freezer-monitoring",
-    title: "FrostEdge Smart Freezer Monitoring System",
-    tagline: "IoT freezer monitoring with real-time alerts",
-    image: project3,
-    cover: project3Cover,
-    description:
-      "Developed internal web-based admin system to monitor smart freezer conditions in real-time. Integrated ESP32 sensors to collect temperature and freezer status data. Built backend services to process and store sensor data. Designed dashboard for real-time visualization with Telegram and email alerts.",
-    technologies: ["ESP32", "IoT", "React", "Node.js", "MySQL", "Telegram API"],
+      "Built an ERP covering warehouse, manufacturing and reporting modules on a NestJS backend. Integrated RFID/EPC for automated stock tracking, with an admin dashboard for real-time monitoring.",
+    technologies: ["NestJS", "TypeScript", "React", "MySQL", "RFID/EPC"],
     type: "Professional Project",
     context: "Evolve Technology Platform Sdn Bhd",
   },
   {
     slug: "polesync-technologies",
     title: "PoleSync Technologies",
-    tagline: "Smart pole with ESP32 environmental sensors",
+    tagline: "Smart environmental pole with ESP32 sensors",
     image: project4,
     cover: project4Cover,
     description:
-      "An environmental monitoring system built around a smart pole fitted with ESP32 sensors. The pole tracks weather conditions, air quality, and water quality, doubles as a WiFi access point, and turns the readings it collects into forecasts. Sensor data feeds a dashboard for real-time monitoring across deployed units.",
-    technologies: ["ESP32", "IoT", "AWS", "Vue.js", "MySQL"],
+      "A smart pole with ESP32 sensors tracking weather, air quality and water quality, doubling as a WiFi access point. It turns collected readings into forecasts and feeds a real-time dashboard across all deployed units.",
+    technologies: ["ESP32", "AWS", "Vue.js", "MySQL"],
+    type: "Professional Project",
+    context: "Evolve Technology Platform Sdn Bhd",
+  },
+  {
+    slug: "frostedge-freezer-monitoring",
+    title: "FrostEdge Smart Freezer Monitoring",
+    tagline: "Real-time freezer monitoring with automated alerts",
+    image: project3,
+    cover: project3Cover,
+    description:
+      "A web admin system monitoring freezer temperature and status in real time from ESP32 sensors. Backend services process and store the sensor data, with automated Telegram and email alerts.",
+    technologies: ["ESP32", "Node.js", "React", "MySQL", "Telegram API"],
     type: "Professional Project",
     context: "Evolve Technology Platform Sdn Bhd",
   },
@@ -116,12 +116,11 @@ export const PERSONAL_PROJECTS = [
   {
     slug: "gvreport",
     title: "GVReport",
-    tagline: "Desktop app published on the Microsoft Store",
+    tagline: "Report & dashboard designer on the Microsoft Store",
     image: gvReport,
-    // TODO: replace with an accurate description of what GVReport does.
     description:
-      "A native Windows desktop application published on the Microsoft Store, built with Rust, Tauri, and Electron for a fast, lightweight desktop experience.",
-    technologies: ["Rust", "Tauri", "Electron"],
+      "An offline-first Windows app for designing pixel-precise paginated reports and multi-page dashboards (charts, KPI tiles, slicers) from Excel/JSON files, live REST endpoints, or MySQL/PostgreSQL queries. One layout engine feeds both the on-screen preview and PDF export, so they never disagree; vector charts keep PDFs sharp and small, and batch mode turns one template into many PDFs. It includes a sandboxed expression language (tokenizer, Pratt parser, AST evaluator, no eval) and a read-only SQL allow-list enforced in both the UI and the main process, so a shared project file can never modify a database. Around 21k lines of TypeScript/Vue, covered by 182 automated pipeline checks and Playwright end-to-end tests, running on Electron or Tauri (Rust) through a single host abstraction.",
+    technologies: ["Electron", "Vue 3", "TypeScript", "jsPDF", "Tauri", "Rust", "Playwright"],
     type: "Personal Project",
     context: "Published on Microsoft Store",
     links: [
@@ -133,8 +132,8 @@ export const PERSONAL_PROJECTS = [
   },
   {
     slug: "geminivillain-terminal",
-    title: "GeminiVillain Terminal",
-    tagline: "Terminal that chains and automates deployment workflows",
+    title: "GeminiVillain",
+    tagline: "Developer command centre for one-click deploy workflows",
     image: geminiVillain,
     // Screens shown on the detail page, each rendered at its own ratio.
     gallery: [
@@ -145,8 +144,8 @@ export const PERSONAL_PROJECTS = [
       { src: gv5, caption: "Run" },
     ],
     description:
-      "A Windows terminal application for developers that removes the repetition from deploys. Common command sequences are saved as buttons and chained into workflows, and execution halts the moment any step fails so a broken build never reaches production. Includes remote SSH execution with exit code verification, preflight command review, required confirmation before touching production servers, and deployment status comparison. Built on PowerShell via ConPTY with the OpenSSH client.",
-    technologies: ["PowerShell", "ConPTY", "OpenSSH", "Git", "SSH"],
+      "A real PowerShell terminal (ConPTY, multi-tab) that turns saved commands into one-click workflows which stop at the first failed step, so a broken build never reaches production. Workflow steps run locally or on remote servers over SSH, carrying the remote exit code back so stop-on-failure works across machines, with a preflight review before anything runs. An \"Is production running my code?\" check compares each server's deployed Git commit with the local branch (up to date, N behind, diverged), alongside a status board of read-only health checks. One shared Vue frontend runs on either an Electron/node-pty or a Tauri/Rust backend through a common command-and-event contract.",
+    technologies: ["Electron", "Vue 3", "node-pty", "xterm.js", "Rust", "Tauri", "SSH"],
     type: "Personal Project",
     context: "Published on itch.io",
     links: [
@@ -157,14 +156,14 @@ export const PERSONAL_PROJECTS = [
   {
     slug: "pixel-pet",
     title: "Pixel Pet",
-    tagline: "A pixel-art stress-relief companion for VS Code",
+    tagline: "A pixel-art aquarium companion for VS Code",
     image: pixelPet,
     // Shown in place of the cover image on the detail page; `image` doubles
     // as its poster frame.
     video: pixelPetVideo,
     description:
-      "A cute pixel-art companion that lives inside VS Code to help you relax while coding — feed, play with, and call over hand-drawn creatures like fish, crabs, and jellyfish in a calming aquarium panel alongside your editor.",
-    technologies: ["VS Code Extension API", "TypeScript"],
+      "A pixel-art aquarium webview panel for VS Code with hand-drawn animated fish, crab and jellyfish. Includes feed and play commands, click-to-call interaction, a keyboard shortcut and user settings.",
+    technologies: ["TypeScript", "VS Code Extension API", "Webview"],
     type: "Personal Project",
     context: "VS Code Marketplace",
     links: [
