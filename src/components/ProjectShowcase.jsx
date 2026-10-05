@@ -20,7 +20,20 @@ const ProjectShowcase = ({ projects }) => {
         >
           <Link to={`/work/${project.slug}`} className="group block">
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-white">
-              {project.image ? (
+              {project.coverVideo ? (
+                /* Silent loop in place of the thumbnail; `image` is the
+                   poster shown until the clip's first frame loads. */
+                <video
+                  src={project.coverVideo}
+                  poster={project.image}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  aria-label={project.title}
+                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+              ) : project.image ? (
                 <img
                   src={project.image}
                   alt={project.title}

@@ -1,5 +1,9 @@
 import project1 from "../assets/projects/happi2.png";
 import project1Cover from "../assets/projects/happi4.png";
+import happiMockupVideo from "../assets/projects/happi-mockup.mp4";
+import happiPhoneModel from "../assets/projects/happi3d/phone.glb?url";
+import happiScreenHome from "../assets/projects/happi3d/screen-home.jpg";
+import happiScreenInsurance from "../assets/projects/happi3d/screen-insurance.jpg";
 import project2 from "../assets/projects/zora2.png";
 import project2Cover from "../assets/projects/zora3.png";
 import project3 from "../assets/projects/frostedge2.png";
@@ -60,6 +64,20 @@ export const PROJECTS = [
     // Optional: shown on the project detail page instead of `image`, which
     // stays the card thumbnail. Falls back to `image` when not set.
     cover: project1Cover,
+    // Optional: a silent looping clip used as both the card thumbnail and the
+    // detail-page cover, in place of `image`/`cover` (unlike `video`, which is
+    // a click-to-play player on the detail page only).
+    coverVideo: happiMockupVideo,
+    // Optional: interactive 3D phone section on the detail page. `model` is a
+    // GLB with a mesh named "Phone_Screen"; `screens` are swiped across it.
+    model3d: {
+      model: happiPhoneModel,
+      screens: [
+        { src: happiScreenHome, label: "Home" },
+        { src: happiScreenInsurance, label: "Insurance" },
+      ],
+      background: "#F5C242",
+    },
     description:
       "Built mobile app features in React Native and a Vue.js admin panel for internal operations. Developed the backend REST APIs in Spring Boot (Java). The app is live on the Google Play Store and the Apple App Store.",
     technologies: ["React Native", "Vue.js", "Spring Boot", "Java"],

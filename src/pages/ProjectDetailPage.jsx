@@ -1,8 +1,11 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowUpRight, ArrowRight } from "lucide-react";
 import { ALL_PROJECTS } from "../constants";
+
+// three.js is large; only pages with a 3D section download it.
+const PhoneModel3D = lazy(() => import("../components/PhoneModel3D"));
 
 const ProjectDetailPage = () => {
   const { slug } = useParams();
@@ -62,7 +65,18 @@ const ProjectDetailPage = () => {
             the column width. Opt in with `coverCrop` for portrait art that
             would otherwise shrink to a narrow strip — that gets cropped to a
             full-width banner instead. */}
-        {project.video ? (
+        {project.coverVideo ? (
+          /* Silent loop that plays like a moving image, so no controls. */
+          <video
+            src={project.coverVideo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            aria-label={project.title}
+            className="block h-auto w-full max-h-[70vh] rounded-3xl object-cover"
+          />
+        ) : project.video ? (
           /* `preload="metadata"` fetches only the header and first frame, so
              the player shows the clip itself rather than a blank box, while
              the bulk of the file still waits until the visitor presses play. */
@@ -174,6 +188,26 @@ const ProjectDetailPage = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* Interactive 3D mockup */}
+      {project.model3d && (
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-20"
+        >
+          <p className="mb-8 text-xs font-semibold uppercase tracking-widest2 text-ink-400">
+            Interactive 3D
+          </p>
+          <Suspense
+            fallback={<div className="aspect-[4/5] sm:aspect-[16/10] w-full rounded-3xl bg-white" />}
+          >
+            <PhoneModel3D {...project.model3d} />
+          </Suspense>
+        </motion.div>
+      )}
 
       {/* Screens — no fixed frames, so each shot renders at its own ratio:
           nothing cropped, letterboxed, or scaled past its native size. */}
