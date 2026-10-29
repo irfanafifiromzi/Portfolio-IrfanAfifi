@@ -181,7 +181,7 @@ export const PERSONAL_PROJECTS = [
     // Loop rendered in Blender from the site's own cans; `image` is its poster frame.
     coverVideo: feelingsVideo,
     description:
-      "A playful three.js site: a Japanese-style drinks machine (jihanki) selling canned feelings. Everything is built in code with no model or image files: cel-shaded toon materials with a constant-width ink outline shader, lathe-modelled cans with a real lid, rim and pull tab, and wrappers, signs and the LED screen drawn on canvas at runtime. Picking a can runs a GSAP sequence (button, a ガコン! drop into the tray, a close-up with its \"Feeling Facts\"), drinking one recolours the whole tone-on-tone world, and the sound effects are synthesised with the Web Audio API. A dev-only export tool writes the cans to GLB for Blender, where this loop was rendered with a matching toon look.",
+      "A playful three.js site: a Japanese-style drinks machine (jihanki) selling canned feelings. Everything is built in code with no model or image files: cel-shaded toon materials with a constant-width ink outline shader, lathe-modelled cans with a real lid, rim and pull tab, and wrappers, signs and the LED screen drawn on canvas at runtime. Picking a can runs a GSAP sequence (button, a ガコン! drop into the tray, a close-up with its \"Feeling Facts\"), drinking one recolours the whole tone-on-tone world, and the sound effects are synthesised with the Web Audio API.",
     technologies: ["three.js", "JavaScript", "GLSL", "GSAP", "Web Audio API", "Vite", "Blender"],
     type: "Personal Project",
     context: "Live on Vercel",
